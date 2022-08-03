@@ -1,19 +1,67 @@
-<p style="color: green"><%= notice %></p>
+<%= link_to 'Back', projects_path, class: 'btn btn-secondary mb-43' %>
+<div class="card">
+  <div class="card-body">
+    <h2 class='card-title d-flex justify-content-between mb-4'>
+  <spam><%=@projects.name %></spam>
+  <div>
+    <%= link_to 'Edit', edit_project_path(@projects), class: 'btn btn-light' %>
+    <%= link_to 'Destroy' , @project , method: :delete, class:'btn btn-secondary', data: { confirm: 'Are you sure?'} %>
 
-<%= render @project %>
+  </h2>
+  <div class="mb-4">
+    </div>
+     <h6>Add task</h6>
+     <%= form_for([@task.project, @task] ) do |form| %>
+      <% if @task.errors.any? %>
+        <div id="error-explanation">
+          <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
 
-<div>
-  <%= link_to "Edit this project", edit_project_path(@project) %> |
-  <%= link_to "Back to projects", projects_path %>
+          <ul>
+            <% @task.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <%= button_to "Destroy this project", @project, method: :delete %>
+      <%= f.hidden_field :status,value: 'not-started' =%>
+
+      <div class="input-group">
+        <%= form.text_field :name, class: 'form-control', placeholder:'Enter task name...' %>
+
+        <div class="input-group-append">
+          <% form.submit class: 'btn btn-primary' %>
+       </div>
+     </div>
+    <% end %>
+
+ <h4>Tasks</h4>
+ <% @projets.tasks.each do |task| %>
+ <% if task.persisted? %>
+   <div class="card mb-3">
+     <div class="card-body">
+       <div class="d-flex justify-content-between">
+        <span class="badge badge-<%= task.badge_colour =%> mb-3"><%= task.status %></span>
+        <div>
+        <%= link_to 'Edit', edit_project_task_path(task.project, task), class: 'btn btn-light' %>
+        <%= link_to 'Destroy', [task.project, task], method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-dark btn-sm' %>
+        </div>
+         </div>
+       <h5 class='card-title  mb-2'>
+         <span><%= task.name %></span>
+
+       </h5>
+         <p><%= task.description %></p>
+       </div>
+   </div>
+   <% end %>
+ <% end %>
+ </div>
 </div>
 
 <hr>
 
-<h1>New task</h1>
 
-<%= render 'tasks/form' %>
 
 
 <hr>

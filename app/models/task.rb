@@ -8,4 +8,29 @@ STATUS_OPTIONS = [
   ['In progress', 'in-progress'],
   ['Complete', 'complete']
 ]
+
+def badge_colour
+  case status
+  when 'not-started'
+    'secondary'
+  when 'in-progress'
+    'info'
+  when 'complete'
+    'success'
+
+    end
+
+    def complete?
+      status == 'complete'
+    end
+
+    def in_progress?
+      status == 'in-progress'
+    end
+
+    def not started?
+      status == 'not-started'
+    end
+
+  end
 end
